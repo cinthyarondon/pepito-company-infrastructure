@@ -2,7 +2,7 @@ steps:
   # Correr terraform init y terraform plan en pull requests desde feature/infra a dev
   - name: 'gcr.io/cloud-builders/git'
     id: 'checkout'
-    args: ['clone', '--depth=1', '--branch=$COMMIT_SHA', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
+    args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
   - name: 'hashicorp/terraform:1.0.0'
     id: 'terraform-init'
     args: ['init', '-backend-config=backend.tfvars', 'environments/dev']
