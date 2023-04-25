@@ -1,0 +1,33 @@
+steps:
+- name: gcr.io/cloud-builders/git
+  args: ['clone', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
+
+- name: hashicorp/terraform:light
+  entrypoint: terraform
+  args: ['init', '-backend-config=env/dev/backend.tfvars']
+  dir: 'pepito-company-infrastructure'
+
+- name: hashicorp/terraform:light
+  entrypoint: terraform
+  args: ['plan', '-var-file=environments/dev/variables-dev.tfvars']
+  dir: 'pepito-company-infrastructure'
+  id: 'terraform plan'
+
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: gcloud
+  args:
+    - builds
+    - submit
+    - --config=cloudbuild.yaml
+    - .
+  dir: 'pepito-company-infrastructure'
+  waitFor: ['terraform plan']
+  id: 'submit build if terraform plan succeeds'
+
+- name: hashicorp/terraform:light
+  entrypoint: terraform
+  args: ['apply', '-var-file=environments/dev/variables-dev.tfvars', '-auto-approve']
+  dir: 'pepito-company-infrastructure'
+  waitFor: ['submit build if terraform plan succeeds']
+  id: 'terraform apply'
+  condition: 'if branch("dev")'
