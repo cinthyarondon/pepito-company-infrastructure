@@ -1,37 +1,20 @@
 steps:
-- name: gcr.io/cloud-builders/git
-  args: ['clone', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
+  # Correr terraform init y terraform plan en pull requests desde feature/infra a dev
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'checkout'
+    args: ['clone', '--depth=1', '--branch=$COMMIT_SHA', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'terraform-init'
+    args: ['init', '-backend-config=backend.tfvars', 'environments/dev']
+    condition: "build.event == 'pull_request' && build.sourceBranchName == 'feature/infra' && build.targetBranchName == 'dev'"
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'terraform-plan'
+    args: ['plan', '-var-file=variables-dev.tfvars', '-out=tfplan', 'environments/dev']
+    condition: "build.event == 'pull_request' && build.sourceBranchName == 'feature/infra' && build.targetBranchName == 'dev'"
 
-- name: hashicorp/terraform:light
-  entrypoint: terraform
-  args: ['init', '-backend-config=env/dev/backend.tfvars']
-  dir: 'pepito-company-infrastructure'
-
-- name: hashicorp/terraform:light
-  entrypoint: terraform
-  args: ['plan', '-var-file=environments/dev/variables-dev.tfvars']
-  dir: 'pepito-company-infrastructure'
-  id: 'terraform plan'
-
-- name: gcr.io/cloud-builders/gcloud
-  entrypoint: gcloud
-  args:
-    - builds
-    - submit
-    - --config=cloudbuild.yaml
-    - .
-  dir: 'pepito-company-infrastructure'
-  waitFor: ['terraform plan']
-  id: 'submit build if terraform plan succeeds'
-  env:
-    - 'ENV=dev'
-
-- name: hashicorp/terraform:light
-  entrypoint: terraform
-  args: ['apply', '-var-file=environments/dev/variables-dev.tfvars', '-auto-approve']
-  dir: 'pepito-company-infrastructure'
-  waitFor: ['submit build if terraform plan succeeds']
-  id: 'terraform apply'
-  env:
-    - 'ENV=dev'
-  condition: 'if (build.source.repo_source.branch_name == "dev" && build.source.repo_source.repo_name == "cinthyarondon/pepito-company-infrastructure") || (build.source.repo_source.branch_name == "feature" && build.source.repo_source.repo_name == "cinthyarondon/pepito-company-infrastructure")'
+  # Correr terraform apply en push a la rama dev
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'terraform-apply'
+    args: ['apply', '-auto-approve', 'tfplan']
+    waitFor: ['terraform-plan']
+    condition: "build.event == 'push' && build.branchName == 'dev'"
