@@ -23,6 +23,8 @@ steps:
   dir: 'pepito-company-infrastructure'
   waitFor: ['terraform plan']
   id: 'submit build if terraform plan succeeds'
+  env:
+    - 'ENV=dev'
 
 - name: hashicorp/terraform:light
   entrypoint: terraform
@@ -30,4 +32,6 @@ steps:
   dir: 'pepito-company-infrastructure'
   waitFor: ['submit build if terraform plan succeeds']
   id: 'terraform apply'
-  condition: 'if branch("dev")'
+  env:
+    - 'ENV=dev'
+  condition: 'if (build.source.repo_source.branch_name == "dev" && build.source.repo_source.repo_name == "cinthyarondon/pepito-company-infrastructure") || (build.source.repo_source.branch_name == "feature" && build.source.repo_source.repo_name == "cinthyarondon/pepito-company-infrastructure")'
