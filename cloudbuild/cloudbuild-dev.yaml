@@ -28,4 +28,13 @@ steps:
         terraform workspace show
         cd environments/dev/
         terraform plan 
+        if [[ "$?" -eq 0 ]]; then
+          echo "Terraform plan succeeded, applying changes..."
+          terraform apply -auto-approve
+        else
+          echo "Terraform plan failed, changes not applied."
+        fi
+      condition: success && '$BUILD_SOURCE_BRANCH_NAME =~ ^feature/infra$'
+      description: "Aplicar cambios si el plan de Terraform tuvo éxito y la rama de origen es feature/infra."
+
 
