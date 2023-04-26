@@ -19,3 +19,17 @@ module "network" {
   firewall_rule_protocol = "tcp"
   firewall_rule_ports = ["80", "443"]
 }
+
+resource "google_compute_subnetwork" "subnet" {
+  name          = "${module.network.subnet_name}"
+  ip_cidr_range = "${module.network.subnet_cidr}"
+  network       = "${module.network.network_name}"
+}
+
+output "firewall_rule_protocol" {
+  value = module.network.firewall_rule_protocol
+}
+
+output "firewall_rule_ports" {
+  value = module.network.firewall_rule_ports
+}

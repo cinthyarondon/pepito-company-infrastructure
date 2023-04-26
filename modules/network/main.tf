@@ -5,7 +5,7 @@ data "google_project_service" "compute" {
 resource "google_project_service" "compute" {
   service = "compute.googleapis.com"
   depends_on = [
-    data.google_project_service.dns
+    data.google_project_service.compute
   ]
 
   count = length(data.google_project_service.compute.versions) == 0 ? 1 : 0

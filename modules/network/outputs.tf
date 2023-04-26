@@ -15,9 +15,9 @@ output "firewall_rule_name" {
 }
 
 output "firewall_rule_protocol" {
-  value = google_compute_firewall.firewall_rules.allow.0.protocol
+  value = google_compute_firewall.firewall_rules.allow.*.protocol
 }
 
 output "firewall_rule_ports" {
-  value = google_compute_firewall.firewall_rules.allow.0.ports
+  value = google_compute_firewall.firewall_rules.allow.*.ports
 }
