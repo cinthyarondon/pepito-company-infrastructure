@@ -37,9 +37,10 @@ steps:
       - |
         if terraform workspace list | grep -q "dev"; then
           terraform workspace select dev
+        fi
 #        else
 #          terraform workspace new dev
-        fi
+#        fi
         terraform workspace show
         cd environments/dev/
 #        terraform apply -auto-approve
