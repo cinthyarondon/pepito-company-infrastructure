@@ -1,7 +1,7 @@
 resource "google_project_service" "compute" {
-  project = var.project_id
-  service = "compute.googleapis.com"
-  disable_on_destroy = true
+  project                    = var.project_id
+  service                    = "compute.googleapis.com"
+  disable_on_destroy         = true
   disable_dependent_services = true
 }
 
@@ -27,11 +27,4 @@ resource "google_compute_firewall" "firewall_rules" {
     ports       = var.firewall_rule_ports
   }
   source_tags   =  [ var.env ] 
-}
-
-resource "google_compute_address" "address" {
-  project = var.project_id
-  name = var.address_name
-  region = var.region
-  address_type = "EXTERNAL"
 }
