@@ -5,7 +5,7 @@ variable "project_id" {
 
 variable "region" {
   type          = string 
-  description   = "The region"
+  description   = "The region of the project"
 }
 
 variable "network_name" {
