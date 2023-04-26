@@ -33,4 +33,5 @@ steps:
       - '-c'
       - |
         cd environments/dev/
+        terraform workspace show
         terraform plan -var-file=variables-dev.tfvars
