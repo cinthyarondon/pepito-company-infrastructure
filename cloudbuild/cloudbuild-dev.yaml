@@ -1,5 +1,5 @@
 steps:
-  # Correr terraform init y terraform plan en pull requests desde feature/infra a dev
+  # Correr los comandos de terraform cuando el trigger sea un pull request desde feature/infra a dev
   - name: 'gcr.io/cloud-builders/git'
     id: 'checkout'
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
@@ -14,32 +14,21 @@ steps:
         echo pwd
         terraform init -backend-config=environments/dev/backend-dev.tfvars 
 
-  - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-plan'
-    entrypoint: sh
-    args:
-      - '-c'
-      - |
         if terraform workspace list | grep -q "dev"; then
           terraform workspace select dev
         else
           terraform workspace new dev
         fi
-        terraform workspace show
-        cd environments/dev/
-        terraform plan 
 
-  - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-apply'
-    entrypoint: sh
-    args:
-      - '-c'
-      - |
-        if terraform workspace list | grep -q "dev"; then
-          terraform workspace select dev
+        terraform workspace show
+
+      # Guardar el resultado del plan en una variable
+        terraform plan -detailed-exitcode -out=tfplan || PLAN_EXIT_CODE=$?
+        
+      # Chequear el valor de la variable para saber si el plan fue exitoso
+        if [[ "${PLAN_EXIT_CODE}" -eq 0 ]]; then
+            terraform apply -auto-approve tfplan
+        else
+            echo "Terraform plan failed with exit code ${PLAN_EXIT_CODE}"
+            exit ${PLAN_EXIT_CODE}
         fi
-        terraform workspace show
-        cd environments/dev/
-#        terraform apply -auto-approve
-
-
