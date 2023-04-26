@@ -15,7 +15,7 @@ steps:
         terraform init -backend-config=environments/dev/backend-dev.tfvars 
 
   - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-workspace'
+    id: 'terraform-plan'
     entrypoint: sh
     args:
       - '-c'
@@ -25,16 +25,7 @@ steps:
         else
           terraform workspace new dev
         fi
-        terraform workspace list
-
-  - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-plan'
-    entrypoint: sh
-    args: 
-      - '-c'
-      - |
+        terraform workspace show
         cd environments/dev/
-        terraform workspace list
-        terraform workspace select dev
-#        terraform workspace show
-#        terraform plan -var-file=variables-dev.tfvars
+        terraform plan -var-file=variables-dev.tfvars
+
