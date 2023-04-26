@@ -11,8 +11,11 @@ steps:
       - '-c'
       - |
           for ENVIRONMENT in $(echo $ENVIRONMENTS | tr ',' ' '); do
-            terraform init -chdir=/workspace/pepito-company-infrastructure/environments/$ENVIRONMENT/ -backend-config=environments/$ENVIRONMENT/backend.tf
+            terraform init -chdir=/workspace/pepito-company-infrastructure/environments/${_ENVIRONMENT}/ -backend-config=environments/${_ENVIRONMENT}/backend.tf
           done
-    substitutions:
-      _ENVIRONMENTS: 'dev,stage,prod'
+    options:
+      env:
+        - 'ENVIRONMENTS=dev,prod'
+      substitutions:
+        _ENVIRONMENT: dev
 
