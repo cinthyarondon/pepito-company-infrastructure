@@ -10,9 +10,9 @@ steps:
     args:
       - '-c'
       - |
-          for ENV in $(echo $ENV | tr ',' ' '); do
+          for ENV in $(echo $_ENV | tr ',' ' '); do
             terraform init -chdir=/workspace/pepito-company-infrastructure/environments/$ENV/ -backend-config=environments/$ENV/backend.tf
           done
     env: 
-      - 'ENV=dev'
+      - '_ENV=dev'
 
