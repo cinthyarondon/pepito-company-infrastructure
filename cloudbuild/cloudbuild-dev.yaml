@@ -42,12 +42,4 @@ steps:
         cd environments/dev/
 #        terraform apply -auto-approve
 
-options:
-  machineType: 'N1_HIGHCPU_8'
-  substitutions:
-    _TF_VERSION: '1.2.2'
-  env:
-    - 'PROJECT_ID=pepito-dev'
-  timeout: '1600s'
-  logging: 'LEGACY'
-  condition: success && '$BUILD_SOURCE_BRANCH_NAME =~ ^feature/infra$'
+
