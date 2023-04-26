@@ -4,10 +4,10 @@ steps:
     args: 
     - '-c'
     - |
-      cd environments/dev/
+      cd env/dev/
           
       echo "run terraform init"
-      terraform init -backend-config=environments/dev/backend-dev.tfvars
+      terraform init -backend-config=env/dev/backend-dev.tfvars
 
       if terraform workspace list | grep -q "dev"; then
         terraform workspace select dev
