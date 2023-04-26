@@ -23,6 +23,6 @@ steps:
 
       if [[ "$?" -eq 0 ]]; then
         echo "run terraform apply"
-        terraform apply  -auto-approve
+        terraform apply -auto-approve
       fi
 timeout: 900s
