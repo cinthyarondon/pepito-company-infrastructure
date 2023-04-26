@@ -5,7 +5,7 @@ steps:
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
 
   - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-init'
+    id: 'terraform-commands'
     entrypoint: sh
     args:
       - '-c'
@@ -22,13 +22,5 @@ steps:
 
         terraform workspace show
 
-        terraform plan -detailed-exitcode -out=tfplan || PLAN_EXIT_CODE=$? 
-        
-        if [[ "${PLAN_EXIT_CODE}" -eq 0 ]]; then 
-            terraform apply -auto-approve tfplan
-        else
-            echo "Terraform plan failed with exit code ${PLAN_EXIT_CODE}"
-            exit ${PLAN_EXIT_CODE}
-        fi
-substitutions:
-  _PLAN_EXIT_CODE: "${PLAN_EXIT_CODE}"
+        terraform plan -detailed-exitcode -out=tfplan || { echo "Terraform plan failed with exit code $?" ; exit $? ; }
+        terraform apply -auto-approve tfplan
