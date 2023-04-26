@@ -22,11 +22,9 @@ steps:
 
         terraform workspace show
 
-  # Guardar el resultado del plan en una variable
-        terraform plan -detailed-exitcode -out=tfplan || PLAN_EXIT_CODE=$?
+        terraform plan -detailed-exitcode -out=tfplan || PLAN_EXIT_CODE=$? 
         
-  # Chequear el valor de la variable para saber si el plan fue exitoso
-        if [[ "${PLAN_EXIT_CODE}" -eq 0 ]]; then
+        if [[ "${PLAN_EXIT_CODE}" -eq 0 ]]; then 
             terraform apply -auto-approve tfplan
         else
             echo "Terraform plan failed with exit code ${PLAN_EXIT_CODE}"
