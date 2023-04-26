@@ -1,3 +1,13 @@
+terraform {
+  backend "gcs" {}
+}
+
+module "google" {
+  source = "../../modules/google"
+  project = "pepito-company-dev"
+  region = "us-central1"
+}
+
 locals {
   env = "dev"
 }
@@ -14,7 +24,6 @@ module "network" {
   firewall_rule_protocol = "tcp"
   firewall_rule_ports = ["80", "443"]
   env = "${local.env}"
-  address_name = "${local.env}-address"
 }
 
 resource "google_compute_subnetwork" "subnet" {
