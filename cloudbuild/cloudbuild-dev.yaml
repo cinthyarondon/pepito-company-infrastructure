@@ -10,7 +10,9 @@ steps:
     args:
       - '-c'
       - |
-        terraform init -backend-config=environments/dev/backend.tf -chdir=/workspace/pepito-company-infrastructure/environments/dev/
+        cd environments/dev/
+        echo pwd
+        terraform init -backend-config=environments/dev/backend.tf 
 
   - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-workspace'
