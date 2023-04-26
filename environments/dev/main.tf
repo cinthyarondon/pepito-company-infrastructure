@@ -19,6 +19,7 @@ module "network" {
   firewall_rule_protocol = "tcp"
   firewall_rule_ports = ["80", "443"]
   env = "${local.env}"
+  address_name = "${local.env}-address"
 }
 
 resource "google_compute_subnetwork" "subnet" {
