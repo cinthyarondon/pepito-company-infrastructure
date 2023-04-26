@@ -22,5 +22,24 @@ steps:
 
         terraform workspace show
 
-        terraform plan -detailed-exitcode -out=tfplan || { echo "Terraform plan failed with exit code $?" ; exit $? ; }
-        terraform apply "tfplan" -auto-approve
+        terraform plan 
+
+  - name: 'hashicorp/terraform:1.2.2'
+    id: 'terraform-apply'
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if terraform workspace list | grep -q "dev"; then
+          terraform workspace select dev
+        fi
+
+        terraform workspace show
+
+        cd environments/dev/
+        
+        terraform plan 
+
+        if [[ "$?" -eq 0 ]]; then
+            terraform apply -auto-approve
+        fi
