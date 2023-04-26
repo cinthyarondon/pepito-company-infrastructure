@@ -25,3 +25,12 @@ steps:
         else
           terraform workspace new dev
         fi
+
+  - name: 'hashicorp/terraform:1.2.2'
+    id: 'terraform-plan'
+    entrypoint: sh
+    args: 
+      - '-c'
+      - |
+        cd environments/dev/
+        terraform plan -var-file=variables-dev.tfvars
