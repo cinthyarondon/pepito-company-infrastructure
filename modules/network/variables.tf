@@ -37,3 +37,8 @@ variable "firewall_rule_ports" {
   type          = list(string)
   description   = "Ports allowed in the firewall rule"
 }
+
+variable "env" {
+  type = string
+  description   = "the environment"
+}
