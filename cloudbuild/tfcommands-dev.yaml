@@ -1,0 +1,28 @@
+steps: 
+  - name: 'hashicorp/terraform:1.2.2'
+    entrypoint: 'sh'
+    args: 
+    - '-c'
+    - |
+      cd environments/dev/
+          
+      echo "run terraform init"
+      terraform init -backend-config=environments/dev/backend-dev.tfvars
+
+      if terraform workspace list | grep -q "dev"; then
+        terraform workspace select dev
+      else
+        terraform workspace new dev
+      fi
+
+      echo "run terraform show workspace"
+      terraform workspace show
+
+      echo "run terraform plan"
+      terraform plan 
+
+      if [[ "$?" -eq 0 ]]; then
+        echo "run terraform apply"
+        terraform apply  -auto-approve
+      fi
+timeout: 900s
