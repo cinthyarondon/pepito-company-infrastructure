@@ -23,4 +23,4 @@ steps:
         terraform workspace show
 
         terraform plan -detailed-exitcode -out=tfplan || { echo "Terraform plan failed with exit code $?" ; exit $? ; }
-        terraform apply tfplan -auto-approve
+        terraform apply "tfplan" -auto-approve
