@@ -4,6 +4,19 @@ steps:
     id: 'checkout'
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
 
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'check-branch'
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if [[ "$BRANCH_NAME" == "feature/infra" && "$BUILD_SOURCE_BRANCH_NAME" == "dev" ]]; then
+        echo "Pull request desde feature/infra a dev detectado. Continuando con el pipeline."
+        else
+        echo "Este pull request no cumple los requisitos. Cancelando el pipeline."
+        exit 1
+        fi
+
   - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-backend-config'
     entrypoint: sh
@@ -30,7 +43,7 @@ steps:
 
         terraform workspace show
 
-        terraform plan 
+        terraform plan -out=tfplan
 
   - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-apply'
@@ -46,8 +59,4 @@ steps:
 
         cd environments/dev/
         
-        terraform plan 
-
-        if [[ "$?" -eq 0 ]]; then
-            terraform apply -auto-approve -input=false 
-        fi
+        terraform apply tfplan
