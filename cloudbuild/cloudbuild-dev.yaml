@@ -5,6 +5,14 @@ steps:
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
 
   - name: 'hashicorp/terraform:1.2.2'
+    id: 'terraform-init'
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        terraform init -backend-config=environments/dev/backend.tf -chdir=/workspace/pepito-company-infrastructure/environments/dev/
+
+  - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-workspace'
     entrypoint: sh
     args:
@@ -15,11 +23,3 @@ steps:
         else
           terraform workspace new dev
         fi
-        
-  - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-init'
-    entrypoint: sh
-    args:
-      - '-c'
-      - |
-        terraform init -backend-config=environments/dev/backend.tf -chdir=/workspace/pepito-company-infrastructure/environments/dev/
