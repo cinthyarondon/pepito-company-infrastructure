@@ -28,13 +28,31 @@ steps:
         terraform workspace show
         cd environments/dev/
         terraform plan 
-        if [[ "$?" -eq 0 ]]; then
-          echo "Terraform plan succeeded, applying changes..."
-          terraform apply -auto-approve
-        else
-          echo "Terraform plan failed, changes not applied."
+
+  - name: 'hashicorp/terraform:1.2.2'
+    id: 'terraform-apply'
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if terraform workspace list | grep -q "dev"; then
+          terraform workspace select dev
+#        else
+#          terraform workspace new dev
         fi
-    condition: success && '$BUILD_SOURCE_BRANCH_NAME =~ ^feature/infra$'
-#    description: "Aplicar cambios si el plan de Terraform tuvo éxito y la rama de origen es feature/infra."
+        terraform workspace show
+        cd environments/dev/
+#        terraform apply -auto-approve
 
-
+options:
+  machineType: 'N1_HIGHCPU_8'
+  substitutions:
+    _TF_VERSION: '1.2.2'
+  env:
+    - 'PROJECT_ID=pepito-dev'
+  retry:
+    maxNumRetries: 3
+    maxRetryDuration: '1200s'
+  timeout: '1600s'
+  logging: 'LEGACY'
+  condition: success && '$BUILD_SOURCE_BRANCH_NAME =~ ^feature/infra$'
