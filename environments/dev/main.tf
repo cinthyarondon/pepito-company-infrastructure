@@ -3,8 +3,8 @@ locals {
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.region
+  project = "pepito-dev"
+  region  = "us-central1"
 }
 
 module "network" {
