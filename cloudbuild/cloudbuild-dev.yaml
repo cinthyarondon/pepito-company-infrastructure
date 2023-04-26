@@ -5,17 +5,21 @@ steps:
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
 
   - name: 'hashicorp/terraform:1.2.2'
+    id: 'terraform-workspace'
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if terraform workspace list | grep -q "dev"; then
+          terraform workspace select dev
+        else
+          terraform workspace new dev
+        fi
+        
+  - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-init'
     entrypoint: sh
     args:
       - '-c'
       - |
-          for ENVIRONMENT in $(echo $ENVIRONMENTS | tr ',' ' '); do
-            terraform init -chdir=/workspace/pepito-company-infrastructure/environments/${_ENVIRONMENT}/ -backend-config=environments/${_ENVIRONMENT}/backend.tf
-          done
-    options:
-      env:
-        - 'ENVIRONMENTS=dev,prod'
-      substitutions:
-        _ENVIRONMENT: dev
-
+        terraform init -backend-config=environments/dev/backend.tf -chdir=/workspace/pepito-company-infrastructure/environments/dev/
