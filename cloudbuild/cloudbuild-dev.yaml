@@ -27,5 +27,5 @@ steps:
         fi
         terraform workspace show
         cd environments/dev/
-        terraform plan -var-file=variables-dev.tfvars
+        terraform plan 
 
