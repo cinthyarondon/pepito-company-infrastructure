@@ -26,5 +26,5 @@ resource "google_compute_firewall" "firewall_rules" {
     protocol    = var.firewall_rule_protocol
     ports       = var.firewall_rule_ports
   }
-  source_tags   =  var.env 
+  source_tags   =  [ var.env ] 
 }
