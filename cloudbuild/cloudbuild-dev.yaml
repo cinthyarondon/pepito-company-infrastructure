@@ -12,7 +12,7 @@ steps:
       - |
         cd environments/dev/
         echo pwd
-        terraform init -backend-config=environments/dev/backend.tf 
+        terraform init -backend-config=environments/dev/backend-dev.tfvars 
 
   - name: 'hashicorp/terraform:1.2.2'
     id: 'terraform-workspace'
