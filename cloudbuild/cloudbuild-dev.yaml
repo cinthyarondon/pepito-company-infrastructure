@@ -30,5 +30,5 @@ steps:
             echo "Terraform plan failed with exit code ${PLAN_EXIT_CODE}"
             exit ${PLAN_EXIT_CODE}
         fi
-  substitutions:
-    _PLAN_EXIT_CODE: "${PLAN_EXIT_CODE}"
+    substitutions:
+      _PLAN_EXIT_CODE: "${PLAN_EXIT_CODE}"
