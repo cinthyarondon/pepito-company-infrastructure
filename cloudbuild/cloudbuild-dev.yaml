@@ -3,18 +3,18 @@ steps:
   - name: 'gcr.io/cloud-builders/git'
     id: 'checkout'
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
+
   - name: 'hashicorp/terraform:1.0.0'
     id: 'terraform-init'
-    args: ['init', '-backend-config=backend.tfvars', 'environments/dev']
-    #condition: "build.event == 'pull_request' && build.sourceBranchName == 'feature/infra' && build.targetBranchName == 'dev'"
-  - name: 'hashicorp/terraform:1.0.0'
-    id: 'terraform-plan'
-    args: ['plan', '-var-file=variables-dev.tfvars', '-out=tfplan', 'environments/dev']
-    #condition: "build.event == 'pull_request' && build.sourceBranchName == 'feature/infra' && build.targetBranchName == 'dev'"
+    args: 
+    - 'init'
+    - '-chdir=/workspace/pepito-company-infrastructure/environments/$${_MATRIX_ENVIRONMENT}/'
+    - '-backend-config=environments/$${_MATRIX_ENVIRONMENT}/backend.tf'
+matrix:
+  dev:
+    environment: 'dev'
+  stage:
+    environment: 'stage'
+  prod:
+    environment: 'prod'    
 
-  # Correr terraform apply en push a la rama dev
-  #- name: 'hashicorp/terraform:1.0.0'
-  #  id: 'terraform-apply'
-  #  args: ['apply', '-auto-approve', 'tfplan']
-  #  waitFor: ['terraform-plan']
-  #  condition: "build.event == 'push' && build.branchName == 'dev'"
