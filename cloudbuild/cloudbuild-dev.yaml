@@ -6,13 +6,10 @@ steps:
 
   - name: 'hashicorp/terraform:1.0.0'
     id: 'terraform-init'
-    env:
-      - ENVIRONMENTS="dev,stage,prod"
-    entrypoint: sh
-    args:
-      - '-c'
-      - |
-        for ENVIRONMENT in $(echo $ENVIRONMENTS | tr ',' ' '); do
-          terraform init -chdir=/workspace/pepito-company-infrastructure/environments/$ENVIRONMENT/ -backend-config=environments/$ENVIRONMENT/backend.tf
-        done
+    args: 
+    - 'init'
+    - '-chdir=/workspace/pepito-company-infrastructure/environments/${_ENVIRONMENT}/'
+    - '-backend-config=environments/${_ENVIRONMENT}/backend.tf'
+  substitutions:
+    _ENVIRONMENT: dev
 
