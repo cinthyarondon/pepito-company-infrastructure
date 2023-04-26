@@ -1,15 +1,10 @@
-data "google_project_service" "compute" {
+resource "google_project_service" " compute" {
+  project = var.project_id
   service = "compute.googleapis.com"
+  disable_on_destroy = true
+  disable_dependent_services = true
 }
 
-resource "google_project_service" "compute" {
-  service = "compute.googleapis.com"
-  depends_on = [
-    data.google_project_service.compute
-  ]
-
-  count = length(data.google_project_service.compute.versions) == 0 ? 1 : 0
-}
 
 resource "google_compute_network" "vpc_network" {
   project                 = var.project_id
