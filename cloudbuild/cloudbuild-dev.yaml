@@ -30,20 +30,12 @@ steps:
 
         terraform workspace show
 
-        terraform plan -out=tfplan
+        echo 'run terraform plan'
 
-  - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-apply'
-    entrypoint: sh
-    args:
-      - '-c'
-      - |
-        if terraform workspace list | grep -q "dev"; then
-          terraform workspace select dev
+        terraform plan 
+
+        if [[ "$?" -eq 0 ]]; then
+          echo 'run terraform apply'
+          terraform apply -auto-approve -input=false 
         fi
 
-        terraform workspace show
-
-        cd environments/dev/
-        
-        terraform apply tfplan
