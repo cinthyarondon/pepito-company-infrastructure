@@ -10,4 +10,9 @@ terraform {
     bucket = "pepito-dev-tfstate"
     prefix = "env/dev"
   }
+
+  provider "google" {
+    project = "pepito-dev"
+    region  = "us-central1"
+  }
 }

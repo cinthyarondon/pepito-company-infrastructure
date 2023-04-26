@@ -2,11 +2,6 @@ locals {
   env = "dev"
 }
 
-provider "google" {
-  project = "pepito-dev"
-  region  = "us-central1"
-}
-
 module "network" {
   source = "../../modules/network"
 
