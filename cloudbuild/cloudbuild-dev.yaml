@@ -35,6 +35,6 @@ steps:
           echo "Terraform plan failed, changes not applied."
         fi
     condition: success && '$BUILD_SOURCE_BRANCH_NAME =~ ^feature/infra$'
-    description: "Aplicar cambios si el plan de Terraform tuvo éxito y la rama de origen es feature/infra."
+#    description: "Aplicar cambios si el plan de Terraform tuvo éxito y la rama de origen es feature/infra."
 
 
