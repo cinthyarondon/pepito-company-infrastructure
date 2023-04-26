@@ -42,3 +42,8 @@ variable "env" {
   type = string
   description   = "the environment"
 }
+
+variable "address_name" {
+  type = string
+  description = "The IP address name"
+}

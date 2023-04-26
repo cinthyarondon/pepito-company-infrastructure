@@ -5,7 +5,7 @@ steps:
     args: ['clone', '--depth=1', '--branch=dev', 'https://github.com/cinthyarondon/pepito-company-infrastructure.git']
 
   - name: 'hashicorp/terraform:1.2.2'
-    id: 'terraform-commands'
+    id: 'terraform-plan'
     entrypoint: sh
     args:
       - '-c'
