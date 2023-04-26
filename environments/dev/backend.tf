@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "${var.project_id}-tfstate"
+    bucket = "pepito-dev-tfstate"
     prefix = "env/dev"
   }
 }
