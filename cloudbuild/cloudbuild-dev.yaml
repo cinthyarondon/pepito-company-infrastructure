@@ -6,15 +6,13 @@ steps:
 
   - name: 'hashicorp/terraform:1.0.0'
     id: 'terraform-init'
-    args: 
-    - 'init'
-    - '-chdir=/workspace/pepito-company-infrastructure/environments/$${_MATRIX_ENVIRONMENT}/'
-    - '-backend-config=environments/$${_MATRIX_ENVIRONMENT}/backend.tf'
-matrix:
-  dev:
-    environment: 'dev'
-  stage:
-    environment: 'stage'
-  prod:
-    environment: 'prod'    
+    env:
+      - ENVIRONMENTS="dev,stage,prod"
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        for ENVIRONMENT in $(echo $ENVIRONMENTS | tr ',' ' '); do
+          terraform init -chdir=/workspace/pepito-company-infrastructure/environments/$ENVIRONMENT/ -backend-config=environments/$ENVIRONMENT/backend.tf
+        done
 
