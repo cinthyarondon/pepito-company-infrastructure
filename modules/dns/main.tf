@@ -1,5 +1,6 @@
 resource "google_dns_managed_zone" "dns_zone" {
   name        = var.zone_name
+  project     = var.project_id
   description = "DNS zone for ${var.environment_name} environment"
 
   dns_name    = "${var.environment_name}.${var.domain}"
