@@ -15,5 +15,14 @@ steps:
         terraform workspace new dev
       fi
 
-      terraform destroy -auto-approve
+      echo "run terraform show workspace"
+      terraform workspace show
+
+      echo "run terraform plan"
+      terraform plan 
+
+      if [[ "$?" -eq 0 ]]; then
+        echo "run terraform apply"
+        terraform apply -auto-approve
+      fi
 timeout: 900s
