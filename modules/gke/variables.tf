@@ -54,7 +54,7 @@ variable "firewall_rule_protocol" {
 }
 
 variable "firewall_rule_ports" {
-  type          = list(any)
+  type          = list(string)
   description   = "Ports allowed in the firewall rule"
 }
 
