@@ -15,8 +15,8 @@ locals {
   env         = "dev"
   project_id  = "pepito-company-dev"
   region      = "us-central1"
-  enable_apis = ["dns.googleapis.com", 
-                "compute.googleapis.com",
+  enable_apis = ["compute.googleapis.com",
+                "dns.googleapis.com", 
                 "container.googleapis.com"]
 }
 
