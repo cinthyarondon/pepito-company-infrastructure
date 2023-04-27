@@ -1,0 +1,48 @@
+steps: 
+  - id: 'branch name'
+    name: 'alpine'
+    entrypoint: 'sh'  
+    args: 
+    - '-c'
+    - | 
+        echo "***********************"
+        echo "$BRANCH_NAME"
+        echo "***********************"
+
+  - id: 'terraform init'      
+  - name: 'hashicorp/terraform:1.2.2'
+    entrypoint: 'sh'
+    args: 
+    - '-c'
+    - |
+        echo "***********************"
+        echo "Run terraform init"
+        echo "Environment: $BRANCH_NAME"
+        echo "***********************"
+
+        cd env/dev/
+        terraform init 
+
+  - id: 'terraform plan'      
+  - name: 'hashicorp/terraform:1.2.2'
+    entrypoint: 'sh'
+    args: 
+    - '-c'
+    - |
+
+        if terraform workspace list | grep -q "dev"; then
+          terraform workspace select dev
+        else
+          terraform workspace new dev
+        fi
+
+        echo "***********************"
+        echo "Run terraform show workspace"
+        terraform workspace show
+        echo "***********************"
+
+        echo "***********************"
+        echo "Run terraform plan"
+        echo "***********************"
+        terraform plan -var-file=dev.tfvars
+timeout: 900s

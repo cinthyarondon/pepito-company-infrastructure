@@ -1,11 +1,3 @@
-resource "google_project_service" "compute" {
-  project                    = var.project_id
-  service                    = "compute.googleapis.com"
-  disable_on_destroy         = true
-  disable_dependent_services = true
-}
-
-
 resource "google_compute_network" "vpc_network" {
   project                 = var.project_id
   name                    = var.network_name

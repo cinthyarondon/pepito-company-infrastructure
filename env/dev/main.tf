@@ -7,29 +7,42 @@ terraform {
 
 module "google" {
   source  = "../../modules/google"
-  project = "pepito-co-dev"
-  region  = "us-central1"
+  project = var.project_id
+  region  = var.region
 }
 
 locals {
-  env         = "dev"
-  project_id  = "pepito-co-dev"
-  region      = "us-central1"
+  env = "dev"
 }
 
 resource "google_project_service" "apis" {
-  project                    = "${local.project_id}"
+  project                    = var.project_id
   for_each                   = toset(var.enable_apis)
   service                    = each.value
   disable_on_destroy         = true
   disable_dependent_services = true
 }
 
+module "dns" {
+  source           = "../../modules/dns"
+
+  project_id       = var.project_id
+  region           = var.region
+  zone_name        = "${local.env}-dns-zone"
+  environment_name = "${local.env}"
+  domain           = var.domain
+  address_name     = "${local.env}-address"
+
+  depends_on = [
+    google_project_service.apis
+  ]  
+}
+
 module "network" {
   source                 = "../../modules/network"
 
-  project_id             = "${local.project_id}"
-  region                 = "${local.region}"
+  project_id             = var.project_id
+  region                 = var.region
   network_name           = "${local.env}-vpc"
   subnet_name            = "${local.env}-subnet"
   subnet_cidr            = "192.168.0.0/16"
@@ -37,34 +50,27 @@ module "network" {
   firewall_rule_protocol = "tcp"
   firewall_rule_ports    = ["80", "443"]
   env                    = "${local.env}"
-}
 
-module "dns" {
-  source           = "../../modules/dns"
-
-  project_id       = "${local.project_id}"
-  region           = "${local.region}"
-  zone_name        = "${local.env}-dns-zone"
-  environment_name = "${local.env}"
-  domain           = "pepitocompany.com."
-  address_name     = "${local.env}-address"
+  depends_on = [
+    google_project_service.apis
+  ]
 }
 
 module "gke" {
   source = "../../modules/gke"
 
-  project_id = "${local.project_id}"
+  project_id = var.project_id
   cluster_name = "${local.env}-cluster"
   cluster_zone = "us-central1-c"
   env = "${local.env}"
   region = "${local.region}"
 
-  network_name           = module.network.network_name
-  subnet_name            = module.network.subnet_name
-  subnet_cidr            = module.network.subnet_cidr
-  firewall_rule_name     = module.network.firewall_rule_name
-  firewall_rule_protocol = "tcp"
-  firewall_rule_ports    = module.network.firewall_rule_ports[*]
+  network_name = module.network.network_name
+  subnet_name  = module.network.subnet_name
+
+  depends_on = [
+    module.network
+  ]
 }
 
 output "firewall_rule_protocol" {

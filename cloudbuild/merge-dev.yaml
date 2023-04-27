@@ -1,4 +1,4 @@
-steps: 
+steps:
   - name: 'hashicorp/terraform:1.2.2'
     entrypoint: 'sh'
     args: 
@@ -19,5 +19,5 @@ steps:
       terraform workspace show
 
       echo "run terraform plan"
-      terraform plan 
+      terraform plan -var-file=dev.tfvars
 timeout: 900s
