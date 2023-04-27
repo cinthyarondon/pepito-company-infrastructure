@@ -31,6 +31,17 @@ module "network" {
   env = "${local.env}"
 }
 
+module "dns" {
+  source = "../../modules/dns"
+
+  project_id = "${local.project_id}"
+  region = "${local.region}"
+  zone_name = "${local.env}-dns-zone"
+  environment_name = "${local.env}"
+  domain = "pepitocompany.com."
+  address_name = "${local.env}-address"
+}
+
 output "firewall_rule_protocol" {
   value = module.network.firewall_rule_protocol
 }
