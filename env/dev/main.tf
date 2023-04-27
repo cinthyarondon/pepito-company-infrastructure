@@ -38,7 +38,7 @@ module "network" {
   subnet_cidr            = "192.168.0.0/16"
   firewall_rule_name     = "${local.env}-firewall"
   firewall_rule_protocol = "tcp"
-  firewall_rule_ports    = formatlist("%s", ["80", "443"])
+  firewall_rule_ports    = ["80", "443"]
   env                    = "${local.env}"
 }
 
@@ -66,7 +66,7 @@ module "gke" {
   subnet_cidr            = module.network.subnet_cidr
   firewall_rule_name     = module.network.firewall_rule_name
   firewall_rule_protocol = module.network.firewall_rule_protocol
-  firewall_rule_ports    = [module.network.firewall_rule_ports]
+  firewall_rule_ports    = module.network.firewall_rule_ports
 }
 
 output "firewall_rule_protocol" {
