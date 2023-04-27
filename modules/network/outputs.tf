@@ -19,5 +19,5 @@ output "firewall_rule_protocol" {
 }
 
 output "firewall_rule_ports" {
-  value = google_compute_firewall.firewall_rules.allow.*.ports
+  value = flatten(google_compute_firewall.firewall_rules.allow.*.ports)
 }

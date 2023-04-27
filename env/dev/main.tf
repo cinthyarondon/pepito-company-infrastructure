@@ -61,12 +61,13 @@ module "gke" {
   cluster_zone = "us-central1-c"
   env = "${local.env}"
   region = "${local.region}"
+
   network_name           = module.network.network_name
   subnet_name            = module.network.subnet_name
   subnet_cidr            = module.network.subnet_cidr
   firewall_rule_name     = module.network.firewall_rule_name
   firewall_rule_protocol = "tcp"
-  firewall_rule_ports    = module.network.firewall_rule_ports
+  firewall_rule_ports    = module.network.firewall_rule_ports[*]
 }
 
 output "firewall_rule_protocol" {
