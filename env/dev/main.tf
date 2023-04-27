@@ -53,6 +53,15 @@ module "dns" {
   address_name     = "${local.env}-address"
 }
 
+module "gke" {
+  source = "../../modules/gke"
+
+  project_id       = "${local.project_id}"
+  cluster_name = "${local.env}-cluster"
+  cluster_zone = "us-central1-c"
+  env                    = "${local.env}"
+}
+
 output "firewall_rule_protocol" {
   value = module.network.firewall_rule_protocol
 }
