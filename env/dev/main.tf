@@ -31,13 +31,13 @@ module "network" {
   env = "${local.env}"
 }
 
-resource "google_compute_subnetwork" "subnet" {
-  name          = "${module.network.subnet_name}"
-  project       = "${local.project_id}"
-  ip_cidr_range = "${module.network.subnet_cidr}"
-  network       = "${module.network.network_name}"
-  region        = "${local.region}"
-}
+#resource "google_compute_subnetwork" "subnet" {
+#  name          = "${module.network.subnet_name}"
+#  project       = "${local.project_id}"
+#  ip_cidr_range = "${module.network.subnet_cidr}"
+#  network       = "${module.network.network_name}"
+#  region        = "${local.region}"
+#}
 
 output "firewall_rule_protocol" {
   value = module.network.firewall_rule_protocol
