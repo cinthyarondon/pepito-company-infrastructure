@@ -15,5 +15,5 @@ steps:
         terraform workspace new dev
       fi
 
-      terraform destroy
+      terraform destroy -auto-approve
 timeout: 900s
