@@ -15,12 +15,14 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_subnetwork" "subnet" {
   name          = var.subnet_name
   ip_cidr_range = var.subnet_cidr
+  project       = var.project_id
   region        = var.region
   network       = google_compute_network.vpc_network.self_link
 }
 
 resource "google_compute_firewall" "firewall_rules" {
   name          = var.firewall_rule_name
+  project       = var.project_id
   network       = google_compute_network.vpc_network.self_link
   allow {
     protocol    = var.firewall_rule_protocol
