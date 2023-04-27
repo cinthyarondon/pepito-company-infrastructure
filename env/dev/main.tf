@@ -33,7 +33,6 @@ module "network" {
 
 resource "google_compute_subnetwork" "subnet" {
   name          = "${module.network.subnet_name}"
-  project_id    = "${local.project_id}"
   ip_cidr_range = "${module.network.subnet_cidr}"
   network       = "${module.network.network_name}"
   region        = "${local.region}"
