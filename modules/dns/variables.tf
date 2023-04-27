@@ -3,6 +3,16 @@
 #  #default = ["app1", "app2", "app3", "monitor"]
 #}
 
+variable "project_id" {
+  type          = string
+  description   = "The ID of the project"
+}
+
+variable "region" {
+  type          = string 
+  description   = "The region of the project"
+}
+
 variable "environment_name" {
   type    = string
   #default = ["dev", "stage", "prod"]

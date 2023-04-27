@@ -34,6 +34,8 @@ module "network" {
 module "dns" {
   source = "../../modules/dns"
 
+  project_id = "${local.project_id}"
+  region = "${local.region}"
   zone_name = "${local.env}-dns-zone"
   environment_name = "${local.env}"
   domain = "pepitocompany.com."
