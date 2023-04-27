@@ -29,7 +29,7 @@ variable "firewall_rule_name" {
 }
 
 variable "firewall_rule_protocol" {
-  type          = any
+  type          = string
   description   = "Protocol allowed in firewall rule"
 }
 

@@ -44,18 +44,18 @@ variable "subnet_cidr" {
 }
 
 variable "firewall_rule_name" {
-  type        = string
-  description = "The name of the firewall rule"
+  type          = string
+  description   = "The firewall rule name"
 }
 
 variable "firewall_rule_protocol" {
-  type        = list(string)
-  description = "The protocol for the firewall rule"
+  type          = string
+  description   = "Protocol allowed in firewall rule"
 }
 
 variable "firewall_rule_ports" {
-  type        = list(string)
-  description = "The list of ports for the firewall rule"
+  type          = list(string)
+  description   = "Ports allowed in the firewall rule"
 }
 
 variable "region" {
