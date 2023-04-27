@@ -62,3 +62,11 @@ variable "region" {
   type          = string 
   description   = "The region of the project"
 }
+
+variable "firewall_rules" {
+  type = list(object({
+    name           = string
+    protocol    = string
+    ports      = list(string)
+  }))
+}
