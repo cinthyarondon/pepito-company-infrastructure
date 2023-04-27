@@ -56,10 +56,10 @@ module "dns" {
 module "gke" {
   source = "../../modules/gke"
 
-  project_id       = "${local.project_id}"
+  project_id = "${local.project_id}"
   cluster_name = "${local.env}-cluster"
   cluster_zone = "us-central1-c"
-  env                    = "${local.env}"
+  env = "${local.env}"
   network_name   = module.network.network_name
   subnet_name    = module.network.subnet_name
 }

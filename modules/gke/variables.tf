@@ -27,3 +27,7 @@ variable "env" {
 #  type = string
 #  description = "The GKE cluster name"
 #}
+
+variable "network_name" {}
+
+variable "subnet_name" {}
