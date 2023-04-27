@@ -28,6 +28,12 @@ variable "env" {
 #  description = "The GKE cluster name"
 #}
 
-variable "network_name" {}
+variable "network_name" {
+  type        = string
+  description = "The name of the VPC network"
+}
 
-variable "subnet_name" {}
+variable "subnet_name" {
+  type        = string
+  description = "The name of the subnet"
+}

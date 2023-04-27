@@ -6,8 +6,8 @@ resource "google_container_cluster" "gke_cluster" {
   name       = var.cluster_name
   project    = var.project_id
   location   = var.cluster_zone
-  network    = module.network.network_name
-  subnetwork = module.network.subnet_name
+  network    = var.network_name
+  subnetwork = var.subnet_name
 
   remove_default_node_pool = true
   initial_node_count = 1
