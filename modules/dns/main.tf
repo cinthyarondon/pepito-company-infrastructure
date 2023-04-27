@@ -1,10 +1,3 @@
-resource "google_project_service" "compute" {
-  project                    = var.project_id
-  service                    = "dns.googleapis.com"
-  disable_on_destroy         = true
-  disable_dependent_services = true
-}
-
 resource "google_dns_managed_zone" "dns_zone" {
   name        = var.zone_name
   project     = var.project_id

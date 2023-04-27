@@ -15,6 +15,16 @@ locals {
   env = "dev"
   project_id = "pepito-company-dev"
   region = "us-central1"
+  enable_apis = ["dns.googleapis.com", 
+                "compute.googleapis.com"]
+}
+
+resource "google_project_service" "apis" {
+  project  = "${local.project_id}"
+  for_each = toset(local.enable_apis)
+  service = each.value
+  disable_on_destroy         = true
+  disable_dependent_services = true
 }
 
 module "network" {
