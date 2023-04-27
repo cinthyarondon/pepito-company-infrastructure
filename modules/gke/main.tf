@@ -1,5 +1,15 @@
 module "network" {
   source = "../network"
+
+  region = var.region
+  subnet_name = var.subnet_name
+  subnet_cidr = var.subnet_cidr
+  firewall_rule_ports = var.firewall_rule_ports
+  env = var.env
+  project_id = var.project_id
+  network_name = var.network_name
+  firewall_rule_name = var.firewall_rule_name
+  firewall_rule_protocol = var.firewall_rule_protocol
 }
 
 resource "google_container_cluster" "gke_cluster" {
