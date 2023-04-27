@@ -49,7 +49,7 @@ variable "firewall_rule_name" {
 }
 
 variable "firewall_rule_protocol" {
-  type        = string
+  type        = list(string)
   description = "The protocol for the firewall rule"
 }
 
