@@ -65,8 +65,8 @@ module "gke" {
   subnet_name            = module.network.subnet_name
   subnet_cidr            = module.network.subnet_cidr
   firewall_rule_name     = module.network.firewall_rule_name
-  firewall_rule_protocol = module.network.firewall_rule_protocol
-  firewall_rule_ports    = [module.network.firewall_rule_ports]
+  firewall_rule_protocol = "tcp"
+  firewall_rule_ports    = ["80", "443"]
 }
 
 output "firewall_rule_protocol" {
