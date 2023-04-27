@@ -44,5 +44,5 @@ steps:
       echo "***********************"
       echo "Run terraform plan"
       echo "***********************"
-      terraform plan -var-file=dev.tfvars
+      terraform plan -var-file="env/dev/dev.tfvars"
 timeout: 900s
