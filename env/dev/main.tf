@@ -7,7 +7,7 @@ terraform {
 
 module "google" {
   source  = "../../modules/google"
-  project = "pepito-company-dev"
+  project = "pepito-co-dev"
   region  = "us-central1"
 }
 
