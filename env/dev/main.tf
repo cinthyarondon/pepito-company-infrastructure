@@ -6,50 +6,50 @@ terraform {
 }
 
 module "google" {
-  source = "../../modules/google"
+  source  = "../../modules/google"
   project = "pepito-company-dev"
-  region = "us-central1"
+  region  = "us-central1"
 }
 
 locals {
-  env = "dev"
-  project_id = "pepito-company-dev"
-  region = "us-central1"
+  env         = "dev"
+  project_id  = "pepito-company-dev"
+  region      = "us-central1"
   enable_apis = ["dns.googleapis.com", 
                 "compute.googleapis.com"]
 }
 
 resource "google_project_service" "apis" {
-  project  = "${local.project_id}"
-  for_each = toset(local.enable_apis)
-  service = each.value
+  project                    = "${local.project_id}"
+  for_each                   = toset(local.enable_apis)
+  service                    = each.value
   disable_on_destroy         = true
   disable_dependent_services = true
 }
 
 module "network" {
-  source = "../../modules/network"
+  source                 = "../../modules/network"
 
-  project_id = "${local.project_id}"
-  region = "${local.region}"
-  network_name = "${local.env}-vpc"
-  subnet_name = "${local.env}-subnet"
-  subnet_cidr = "192.168.0.0/16"
-  firewall_rule_name = "${local.env}-firewall"
+  project_id             = "${local.project_id}"
+  region                 = "${local.region}"
+  network_name           = "${local.env}-vpc"
+  subnet_name            = "${local.env}-subnet"
+  subnet_cidr            = "192.168.0.0/16"
+  firewall_rule_name     = "${local.env}-firewall"
   firewall_rule_protocol = "tcp"
-  firewall_rule_ports = ["80", "443"]
-  env = "${local.env}"
+  firewall_rule_ports    = ["80", "443"]
+  env                    = "${local.env}"
 }
 
 module "dns" {
-  source = "../../modules/dns"
+  source           = "../../modules/dns"
 
-  project_id = "${local.project_id}"
-  region = "${local.region}"
-  zone_name = "${local.env}-dns-zone"
+  project_id       = "${local.project_id}"
+  region           = "${local.region}"
+  zone_name        = "${local.env}-dns-zone"
   environment_name = "${local.env}"
-  domain = "pepitocompany.com."
-  address_name = "${local.env}-address"
+  domain           = "pepitocompany.com."
+  address_name     = "${local.env}-address"
 }
 
 output "firewall_rule_protocol" {
