@@ -16,7 +16,8 @@ locals {
   project_id  = "pepito-company-dev"
   region      = "us-central1"
   enable_apis = ["dns.googleapis.com", 
-                "compute.googleapis.com"]
+                "compute.googleapis.com",
+                "container.googleapis.com"]
 }
 
 resource "google_project_service" "apis" {
