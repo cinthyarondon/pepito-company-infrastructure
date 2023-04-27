@@ -43,21 +43,6 @@ variable "subnet_cidr" {
   description = "The CIDR range for the subnet"
 }
 
-variable "firewall_rule_name" {
-  type        = string
-  description = "The name of the firewall rule"
-}
-
-variable "firewall_rule_protocol" {
-  type        = string
-  description = "The protocol for the firewall rule"
-}
-
-variable "firewall_rule_ports" {
-  type        = list(string)
-  description = "The list of ports for the firewall rule"
-}
-
 variable "region" {
   type          = string 
   description   = "The region of the project"
