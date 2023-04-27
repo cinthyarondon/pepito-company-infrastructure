@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "pepito-company-dev"
+    prefix = "env/dev"
+  }
+}
+
 module "google" {
   source = "../../modules/google"
   project = "pepito-company-dev"
