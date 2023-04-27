@@ -65,7 +65,6 @@ module "gke" {
   cluster_name = "${local.env}-cluster"
   cluster_zone = "us-central1-c"
   env = "${local.env}"
-  region = "${local.region}"
 
   network_name = module.network.network_name
   subnet_name  = module.network.subnet_name
