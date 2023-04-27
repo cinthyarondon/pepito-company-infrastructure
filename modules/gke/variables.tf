@@ -57,3 +57,8 @@ variable "firewall_rule_ports" {
   type        = list(string)
   description = "The list of ports for the firewall rule"
 }
+
+variable "region" {
+  type          = string 
+  description   = "The region of the project"
+}
