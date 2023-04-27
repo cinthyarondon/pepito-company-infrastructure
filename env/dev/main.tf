@@ -1,7 +1,3 @@
-terraform {
-  backend "gcs" {}
-}
-
 module "google" {
   source = "../../modules/google"
   project = "pepito-company-dev"
