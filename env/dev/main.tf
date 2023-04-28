@@ -36,6 +36,8 @@ module "dns" {
   address_name     = "${local.env}-address"
   count            = length(var.app_names)
   ttl              = 300
+  record_type = "A"
+  app_names = var.app_names
 
   depends_on = [
     google_project_service.apis
