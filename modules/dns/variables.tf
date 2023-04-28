@@ -1,7 +1,7 @@
-#variable "app_names" {
-#  type    = list(string)
-#  #default = ["app1", "app2", "app3", "monitor"]
-#}
+variable "app_names" {
+  type    = list(string)
+# default = ["app1", "app2", "app3", "monitor"]
+}
 
 variable "project_id" {
   type          = string
@@ -28,17 +28,15 @@ variable "domain" {
   description = "The domain name"
 }
 
-#variable "record_type" {
-#  type        = string
-#  description = "DNS record type"
-#  default     = "A"
-#}
+variable "record_type" {
+  type        = string
+  description = "DNS record type"
+}
 
-#variable "ttl" {
-#  type        = number
-#  description = "TTL (time to live) of the DNS record"
-#  default     = 300
-#}
+variable "ttl" {
+  type        = number
+  description = "TTL (time to live) of the DNS record"
+}
 
 variable "address_name" {
   type = string
