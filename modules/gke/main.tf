@@ -1,5 +1,3 @@
-data "google_project" "project" {}
-
 resource "google_container_cluster" "gke_cluster" {
   name       = var.cluster_name
   project    = var.project_id
@@ -24,7 +22,7 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   workload_identity_config {
-    workload_pool = "${data.google_project.project.project_id}.svc.id.goog"
+    workload_pool = "${var.project_id}.svc.id.goog"
   }
 
 }
