@@ -63,11 +63,14 @@ module "gke" {
 
   project_id = var.project_id
   cluster_name = "${local.env}-cluster"
-  cluster_zone = "us-central1-c"
+  zone = var.zone
   env = "${local.env}"
 
   network_name = module.network.network_name
   subnet_name  = module.network.subnet_name
+
+  nodes_name = "${local.env}-nodes"
+  vm_type = "e2-medium"
 
   depends_on = [
     module.network

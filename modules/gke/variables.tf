@@ -8,25 +8,25 @@ variable "cluster_name" {
   description = "The GKE cluster name"
 }
 
-variable "cluster_zone" {
+variable "zone" {
   type = string
   description = "The GKE cluster zone"
 }
 
 variable "env" {
   type = string
-  description   = "the environment"
+  description   = "The environment"
 }
 
-#variable "nodes_name" {
-#  type = string
-#  description = "The GKE cluster name"
-#}
+variable "nodes_name" {
+  type = string
+  description = "Nodes name"
+}
 
-#variable "vm_type" {
-#  type = string
-#  description = "The GKE cluster name"
-#}
+variable "vm_type" {
+  type = string
+  description = "The type of virtual machine"
+}
 
 variable "network_name" {
   type        = string

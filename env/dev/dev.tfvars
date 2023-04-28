@@ -9,3 +9,5 @@ project_id = "pepito-co-dev"
 region = "us-central1"
 
 domain = "pepitocompany.com."
+
+zone = "us-central1-c"
