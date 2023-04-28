@@ -1,3 +1,5 @@
+data "google_project" "project" {}
+
 resource "google_container_cluster" "gke_cluster" {
   name       = var.cluster_name
   project    = var.project_id
