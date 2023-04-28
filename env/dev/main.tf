@@ -6,7 +6,7 @@ terraform {
 }
 
 module "google" {
-  source  = "./modules/google" 
+  source  = "../../modules/google" 
   project = var.project_id
   region  = var.region
 }
@@ -26,7 +26,7 @@ resource "google_project_service" "apis" {
 }
 
 module "dns" {
-  source           = "./modules/dns"
+  source           = "../../modules/dns"
 
   project_id       = var.project_id
   region           = var.region
@@ -41,7 +41,7 @@ module "dns" {
 }
 
 module "network" {
-  source                 = "./modules/network"
+  source                 = "../../modules/network"
 
   project_id             = var.project_id
   region                 = var.region
@@ -59,7 +59,7 @@ module "network" {
 }
 
 module "gke" {
-  source = "./modules/gke"
+  source = "../../modules/gke"
 
   project_id = var.project_id
   cluster_name = "${local.env}-cluster"
